@@ -1,3 +1,5 @@
+
+
 library(data.table)
 library(rvest)     
 library(stringr)
@@ -38,6 +40,9 @@ fread_v2 <- function(link_f){
   Sys.sleep(2)
   return(aaa)
 }
-
-aa_csv <- lapply(dt$Total_Link[45:80], fread_v2) %>% rbindlist(fill = T)
+file_lines <- readLines(dt$Total_Link[84])
+writeLines(gsub(",+$", "", file_lines),
+           "without_commas.txt")
+fread("without_commas.txt")
+aa_csv <- lapply(dt$Total_Link[84], fread_v2) %>% rbindlist(fill = T)
 aa_csv[, .N, by = link]
